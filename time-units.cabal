@@ -1,9 +1,11 @@
 Name: time-units
 Version: 1.0.0
 Build-Type: Simple
-Cabal-Version: >= 1.2
+Cabal-Version: >= 1.6
 License: BSD3
+License-File: LICENSE
 Author: Adam Wick <awick@uhsure.com>
+Maintainer: Adam Wick <awick@uhusre.com>
 Homepage: http://github.com/acw/time-units
 Category: Data
 Synopsis: A basic library for defining units of time as types.
@@ -17,7 +19,7 @@ Description:
   think in.
 
 Library
-  Build-Depends: base >= 4.0
+  Build-Depends: base >= 4.0 && < 5.0
   Exposed-Modules: Data.Time.Units
   Extensions: DeriveDataTypeable,GeneralizedNewtypeDeriving
 

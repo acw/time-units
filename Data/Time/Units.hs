@@ -19,6 +19,7 @@ module Data.Time.Units(
        , addTime
        , subTime
        , convertUnit
+       , getCPUTimeWithUnit
        )
  where
 
@@ -26,6 +27,7 @@ import Data.Ix(Ix)
 import Data.Data(Data)
 import Data.List(isPrefixOf)
 import Data.Typeable(Typeable)
+import System.CPUTime
 
 -- |A generic class that describes all the units of time. We use microseconds
 -- here because that tends to be what GHC (at least) tends to use as its 
@@ -57,6 +59,12 @@ subTime x y = fromMicroseconds (toMicroseconds x - toMicroseconds y)
 -- microsecond, you will lose precision.
 convertUnit :: (TimeUnit a, TimeUnit b) => a -> b
 convertUnit = fromMicroseconds . toMicroseconds
+
+-- |Get the current CPU time in your favorite units. This is probably not
+-- very useful in itself, but is likely useful for comparison purposes ...
+getCPUTimeWithUnit :: TimeUnit a => IO a
+getCPUTimeWithUnit =
+  (fromMicroseconds . toMicroseconds . Picosecond) `fmap` getCPUTime
 
 --
 

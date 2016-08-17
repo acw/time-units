@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 -- |This module defines types for many useful time periods, as well as
 -- mechanisms for converting between them.
@@ -23,6 +24,8 @@ module Data.Time.Units(
        )
  where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Data.Ix(Ix)
 import Data.Data(Data)
 import Data.List(isPrefixOf)
@@ -30,7 +33,7 @@ import Data.Typeable(Typeable)
 import System.CPUTime
 
 -- |A generic class that describes all the units of time. We use microseconds
--- here because that tends to be what GHC (at least) tends to use as its 
+-- here because that tends to be what GHC (at least) tends to use as its
 -- system-level minimum tick size.
 class TimeUnit a where
   -- |Converts the given unit of time into microseconds, flooring the value
@@ -143,6 +146,9 @@ instance Show Microsecond where
   show (Microsecond x) = show x ++ "µs"
 instance Read Microsecond where
   readsPrec = readUnit Microsecond "µs"
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''Microsecond)
 
 --
 
